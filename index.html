@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nes-Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Global scroll progress -->
+    <div id="scrollProgress"></div>
+
+    <!-- Header / Navbar -->
+    <header class="navbar" role="banner">
+      <a href="#home" class="brand" aria-label="Go to Home">
+        <span class="logo">N</span>
+        <span class="brand-text">NES</span>
+        <nav class="nav" role="navigation">
+          <a href="#about" class="nav-link">About</a>
+          <a href="#skills" class="nav-link">Skills</a>
+          <a href="#Certificate" class="nav-link">Certificate</a>
+          <a href="#timeline" class="nav-link">Timeline</a>
+          <a href="#projects" class="nav-link">Projects</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </nav>
+      </a>
+    </header>
+    <!-- 🫧 Bubble Nav -->
+    <aside class="bubble-nav" role="navigation" aria-label="Bubble section navigation">
+      <a href="#home"     class="bubble-link" data-target="home"     aria-label="Home">
+        <span class="inner"><span class="ico">🏠</span></span><i class="label">Home</i>
+      </a>
+      <a href="#about"    class="bubble-link" data-target="about"    aria-label="About">
+        <span class="inner"><span class="ico">👤</span></span><i class="label">About</i>
+      </a>
+      <a href="#skills"   class="bubble-link" data-target="skills"   aria-label="Skills">
+        <span class="inner"><span class="ico">📊</span></span><i class="label">Skills</i>
+      </a>
+      <a href="#Certificate"  class="bubble-link" data-target="Certificate"  aria-label="Certificate">
+        <span class="inner"><span class="ico">🖼️</span></span><i class="label">Certificate</i>
+      </a>
+      <a href="#timeline" class="bubble-link" data-target="timeline" aria-label="Timeline">
+        <span class="inner"><span class="ico">🕘</span></span><i class="label">Timeline</i>
+      </a>
+      <a href="#projects" class="bubble-link" data-target="projects" aria-label="Projects">
+        <span class="inner"><span class="ico">🧪</span></span><i class="label">Projects</i>
+      </a>
+      <a href="#contact"  class="bubble-link" data-target="contact"  aria-label="Contact">
+        <span class="inner"><span class="ico">✉️</span></span><i class="label">Contact</i>
+      </a>
+    </aside>
+    <!-- Hero with Parallax Layers -->
+    <section id="home" class="hero" aria-label="Hero">
+      <div class="hero-bg" aria-hidden="true">
+        <div class="blob b1" data-parallax="0.15"></div>
+        <div class="blob b2" data-parallax="0.25"></div>
+        <div class="blob b3" data-parallax="0.35"></div>
+      </div>
+      <div class="hero-inner" >
+        <h1 class="title" data-anim="fade-up">Hi! I’m <span>NES</span></h1>
+        <p class="subtitle" data-anim="fade-up" data-anim-delay="100">This Is My Personal Webpage</p>
+        <div class="cta-row" data-anim="fade-up" data-anim-delay="180">
+          <a href="#projects" class="btn btn-primary">See Projects</a>
+          <a href="#contact" class="btn btn-ghost">Contact Me</a>
+        </div>
+      </div>
+      <div class="hero-foreground" aria-hidden="true"></div>
+    </section>
+
+    <!-- About: staggered reveal cards + tilt on scroll -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2 class="section-title" data-anim="clip-wipe">About Me</h2>
+        <div class="grid cards-3">
+          <article class="card" data-anim="stagger-up" data-tilt>
+            <h3>Who am I?</h3>
+            <p>Developer who loves motion design and delightful interactions.</p>
+          </article>
+          <article class="card" data-anim="stagger-up" data-anim-delay="120" data-tilt>
+            <h3>What I do</h3>
+            <p>Front-end, animations, and experimentation with web APIs.</p>
+          </article>
+          <article class="card" data-anim="stagger-up" data-anim-delay="240" data-tilt>
+            <h3>Goal</h3>
+            <p>Create interfaces that are simple, accessible, and fun to use.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section (new) -->
+    <section id="skills" class="section alt">
+      <div class="container">
+        <p class="kicker">What I Do ?</p>
+        <h2 class="section-title" style="margin-bottom:18px">My Skills</h2>
+
+        <div class="skills-grid v2">
+          <!-- 1 -->
+          <article class="skill-card v2" data-anim="scale-in">
+            <img class="skill-ico" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Python.svg/1200px-Python.svg.png" alt="Python" />
+            <h3 class="skill-name">Python</h3>
+            <span class="skill-level intermediate">Intermediate</span>
+          </article>
+          <!-- 2 -->
+          <article class="skill-card v2" data-anim="scale-in" data-anim-delay="80">
+            <img class="skill-ico" src="https://www.vikingsoftware.com/wp-content/uploads/2024/02/C.png" alt="C#" />
+            <h3 class="skill-name">C</h3>
+            <span class="skill-level beginner">Beginner</span>
+          </article>
+          <!-- 3 -->
+          <article class="skill-card v2" data-anim="scale-in" data-anim-delay="120">
+            <img class="skill-ico" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/1067px-ISO_C%2B%2B_Logo.svg.png" alt="C++" />
+            <h3 class="skill-name">C++</h3>
+            <span class="skill-level beginner">Intermediate</span>
+          </article>
+          <!-- 4 -->
+          <article class="skill-card v2" data-anim="scale-in" data-anim-delay="160">
+            <img class="skill-ico" src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1200px-Node.js_logo.svg.png" alt="node js" />
+            <h3 class="skill-name">Node js</h3>
+            <span class="skill-level beginner">Beginner</span>
+          </article>
+          <!-- 5 -->
+          <article class="skill-card v2" data-anim="scale-in">
+            <img class="skill-ico" src="https://designil.com/wp-content/uploads/2021/09/4_2048px-HTML5_logo_and_wordmark.svg.png" alt="HTML" />
+            <h3 class="skill-name">HTML</h3>
+            <span class="skill-level intermediate">Intermediate</span>
+          </article>
+          <!-- 6 -->
+          <article class="skill-card v2" data-anim="scale-in" data-anim-delay="80">
+            <img class="skill-ico" src="https://blog.leonhassan.co.uk/content/images/2019/09/css3.svg" alt="CSS" />
+            <h3 class="skill-name">CSS</h3>
+            <span class="skill-level intermediate">Intermediate</span>
+          </article>
+          <!-- 7 -->
+          <article class="skill-card v2" data-anim="scale-in" data-anim-delay="120">
+            <img class="skill-ico" src="https://i0.wp.com/gledevelopment.com/wp-content/uploads/2016/03/js-logo-1.png?fit=500%2C500&ssl=1" alt="JavaScript" />
+            <h3 class="skill-name">JavaScript</h3>
+            <span class="skill-level beginner">Beginner</span>
+          </article>
+          <!-- 8 -->
+          <article class="skill-card v2" data-anim="scale-in" data-anim-delay="160">
+            <img class="skill-ico" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/PHP-logo.svg/250px-PHP-logo.svg.png" alt="PHP" />
+            <h3 class="skill-name">PHP</h3>
+            <span class="skill-level beginner">Beginner</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certificate: horizontal scroller -->
+    <section id="Certificate" class="section">
+      <div class="container">
+        <h2 class="section-title" data-anim="clip-wipe">Certificate</h2>
+
+        <div class="certificate-scroller">
+          <div class="certificate-grid">
+            <!-- ใส่รูปต่อเนื่องไปได้เรื่อย ๆ -->
+            <figure class="cert" data-anim="scale-in">
+              <img loading="lazy" src="images/cybersec.jpg" alt="Cyber Security Bootcamp">
+              <figcaption class="caption">Cyber Security Bootcamp</figcaption>
+            </figure>
+
+            <!-- ตัวอย่างเพิ่ม -->
+            <figure class="cert" data-anim="scale-in" data-anim-delay="80">
+              <img loading="lazy" src="images/JuniorToptalent.jpg" alt="Cyber Security Bootcamp">
+              <figcaption class="caption">TCTT Junior</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Timeline: alternating slide-left/right -->
+    <section id="timeline" class="section alt">
+      <div class="container">
+        <h2 class="section-title" data-anim="clip-wipe">Timeline</h2>
+        <div class="timeline">
+          <div class="t-item" data-anim="slide-left">
+            <span class="t-dot"></span>
+            <div class="t-card">
+              <h3>2023</h3>
+              <p>Mathayom 3 searching for High-School.</p>
+            </div>
+          </div>
+          <div class="t-item" data-anim="slide-right">
+            <span class="t-dot"></span>
+            <div class="t-card">
+              <h3>2024</h3>
+              <p>Mathayom 4 joined Rayongwittayakom School. After that I've met my best friend Non, my seniors that bring me to the Sea. 
+                My School Camp is really good ,that make me not regret of decided to joined this class. 
+                Suddenly, I have first time on junior military class in Thailand i have learnt it on 1st August - 30th August. 
+                Military class is really tired when I comeback to home first thing I do is shower, after shower i suddenly go to sleep.</p>
+            </div>
+          </div>
+          <div class="t-item" data-anim="slide-left">
+            <span class="t-dot"></span>
+            <div class="t-card">
+              <h3>2025</h3>
+              <p>Mathayom 5 started by NSC competition.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects: pinned horizontal scroller -->
+    <section id="projects" class="section" data-anim="clip-wipe">
+      <div class="container">
+        <h2 class="section-title">My Projects</h2>
+        <p style="font-size: 18px;">NSC -  DooYoo</p>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="section alt">
+      <div class="container" data-anim="clip-wipe">
+        <h1 class="section-title">Contacts</h1>
+        <p style="font-size: 18px;">Email : pnes0452@gmail.com</p>
+        <p style="font-size: 18px;">Phone Number : 0801646500</p>
+        <p style="font-size: 18px;">Facebook : ShinOwlz Paripika</p>
+        <p style="font-size: 18px;">Instagram : nesx.polabear</p>
+        <p style="font-size: 18px;">github : https://github.com/Nesza103</p>
+      </div>
+    </section>
+
+    <!-- Back to top -->
+    <button id="backTop" class="back-top" aria-label="Back to top">↑</button>
+
+    <footer class="footer">
+      <p>© <span id="year"></span> Nes. Web Pages Playground.</p>
+    </footer>
+    <div class="lightbox" id="lightbox">
+      <img id="lightbox-img" src="" alt="preview">
+    </div>
+    <script src="code.js"></script>
+  </body>
+</html>
