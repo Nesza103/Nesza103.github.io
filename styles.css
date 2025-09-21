@@ -122,7 +122,7 @@ img{max-width:100%; display:block}
 
 /* โทนสีแยกระดับ */
 .skill-level.expert{ color:#fa5b5b; }         /* ฟ้าม่วง */
-.skill-level.intermediate{ color:#e8f45e; }   /* ม่วงกลาง */
+.skill-level.intermediate{ color:#4b3ad1; }   /* ม่วงกลาง */
 .skill-level.beginner{ color:#4bed7e; }       /* เทาม่วง */
 
 
