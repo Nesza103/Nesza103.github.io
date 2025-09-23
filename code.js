@@ -131,6 +131,122 @@ if(certScroller){
   }
   window.__setActiveBubble = setActive;
 })();
+document.querySelectorAll('.bubble-link').forEach(bubble => {
+  bubble.addEventListener('click', e => {
+    e.preventDefault();
+
+    // 1. แตกก่อน
+    bubble.classList.add('burst');
+
+    // 2. หลังแตกเสร็จ → reset แล้ว respawn
+    const inner = bubble.querySelector('.inner');
+    inner.addEventListener('animationend', function handler() {
+      if (bubble.classList.contains('burst')) {
+        bubble.classList.remove('burst');
+        bubble.classList.add('respawn');
+
+        // ลบ respawn หลังเสร็จ
+        inner.addEventListener('animationend', function respawnDone() {
+          bubble.classList.remove('respawn');
+          inner.removeEventListener('animationend', respawnDone);
+        });
+      }
+      inner.removeEventListener('animationend', handler);
+    });
+
+    // 3. Scroll ไปยัง section
+    const targetId = bubble.getAttribute('href');
+    const targetEl = document.querySelector(targetId);
+    if (targetEl) {
+      const navHeight = document.querySelector('.navbar')?.offsetHeight || 0;
+      const top = targetEl.getBoundingClientRect().top + window.scrollY - navHeight - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+// ===== Bubble burst particles on click =====
+(() => {
+  const container = document.querySelector('.bubble-nav');
+  if (!container) return;
+
+  const bubbles = container.querySelectorAll('.bubble-link');
+
+  bubbles.forEach(bubble => {
+    bubble.addEventListener('click', (e) => {
+      // ถ้าต้องการเลื่อนไป section ด้วย ให้คง preventDefault แล้วเลื่อนเองด้านล่าง
+      e.preventDefault();
+
+      // จุดกำเนิดอนุภาค = กึ่งกลางฟอง (ภายใน .bubble-link)
+      const r = bubble.getBoundingClientRect();
+      const cx = r.width  / 2;
+      const cy = r.height / 2;
+
+      // ทำสถานะ "กำลังแตก"
+      bubble.classList.add('bursting');
+
+      // จำนวนอนุภาค + สุ่มทิศ/ระยะ/ขนาด/เวลา
+      const N = 18; // ปรับได้
+      const frag = document.createDocumentFragment();
+
+      for (let i = 0; i < N; i++) {
+        const p = document.createElement('span');
+        p.className = 'bubble-particle';
+
+        // มุม: กระจายรอบวง + jitter
+        const angle = (i / N) * Math.PI * 2 + (Math.random() * 0.45 - 0.225);
+        // ระยะพุ่ง (px)
+        const dist = 40 + Math.random() * 90;
+        // ออฟเซ็ตปลายทาง
+        const dx = Math.cos(angle) * dist;
+        const dy = Math.sin(angle) * dist * (0.85 + Math.random()*0.3); // ยืดแนวตั้งนิด
+
+        // ขนาดเม็ดฟอง
+        const ps = 8 + Math.random() * 14; // 8..22px
+        // ระยะเวลา
+        const dur = 520 + Math.random() * 260; // 520..780ms
+
+        // center relative to bubble
+        p.style.setProperty('--cx',  cx + 'px');
+        p.style.setProperty('--cy',  cy + 'px');
+        p.style.setProperty('--dx',  dx + 'px');
+        p.style.setProperty('--dy',  dy + 'px');
+        p.style.setProperty('--ps',  ps + 'px');
+        p.style.setProperty('--dur', dur + 'ms');
+
+        // วาง particle โดย relative กับ bubble เอง (position: absolute ของ .bubble-link ใช้ได้)
+        bubble.appendChild(p);
+
+        // ลบตัวเองเมื่อจบแอนิเมชัน
+        p.addEventListener('animationend', () => p.remove());
+      }
+
+      // หลังแตกเสร็จนิดหน่อย → respawn ฟอง
+      const RESPAWN_DELAY = 420; // ms
+      setTimeout(() => {
+        bubble.classList.remove('bursting');
+        bubble.classList.add('respawn');
+        // เอา respawn ออกหลังจบ
+        const inner = bubble.querySelector('.inner');
+        const onEnd = () => {
+          bubble.classList.remove('respawn');
+          inner && inner.removeEventListener('animationend', onEnd);
+        };
+        inner && inner.addEventListener('animationend', onEnd);
+      }, RESPAWN_DELAY);
+
+      // เลื่อนไปยัง section เป้าหมาย
+      const href = bubble.getAttribute('href');
+      const tgt = href ? document.querySelector(href) : null;
+      if (tgt) {
+        const nav = document.querySelector('.navbar');
+        const NAV_OFFSET = nav ? nav.offsetHeight : 0;
+        const top = Math.max(0, tgt.getBoundingClientRect().top + window.scrollY - NAV_OFFSET - 8);
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+})();
+
 
         // ผูก element ที่มี data-anim
     document.querySelectorAll('[data-anim]').forEach(el => io.observe(el));
@@ -206,6 +322,10 @@ if(certScroller){
             pinHorizontal();
 
             ticking = false;
+            const bubbleNav = document.querySelector('.bubble-nav');
+            if (bubbleNav) {
+              bubbleNav.classList.toggle('is-visible', window.scrollY > 120);
+            }
         });
         ticking = true;
         }
@@ -215,39 +335,38 @@ if(certScroller){
 
     /* -------- Back to top -------- */
     backTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    /* -------- Smooth in-page nav (with true top & offset) -------- */
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
 
-/* -------- Smooth in-page nav (with true top & offset) -------- */
-document.addEventListener('click', (e) => {
-  const a = e.target.closest('a[href^="#"]');
-  if (!a) return;
+      const id = a.getAttribute('href').slice(1);
+      const tgt = id ? document.getElementById(id) : null;
 
-  const id = a.getAttribute('href').slice(1);
-  const tgt = id ? document.getElementById(id) : null;
+      // กันกระพริบ/กระตุกจากการกระโดด hash เอง
+      e.preventDefault();
 
-  // กันกระพริบ/กระตุกจากการกระโดด hash เอง
-  e.preventDefault();
+      // คำนวณความสูง navbar (ถ้ามี)
+      const nav = document.querySelector('.navbar');
+      const NAV_OFFSET = nav && getComputedStyle(nav).display !== 'none'
+        ? nav.offsetHeight
+        : 0;
 
-  // คำนวณความสูง navbar (ถ้ามี)
-  const nav = document.querySelector('.navbar');
-  const NAV_OFFSET = nav && getComputedStyle(nav).display !== 'none'
-    ? nav.offsetHeight
-    : 0;
+      // ถ้าคลิก Home ให้เลื่อนขึ้นบนสุดจริงๆ
+      if (id === 'home' || !tgt) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        history.replaceState(null, '', '#home'); // อัปเดต hash ให้สวย
+        return;
+      }
 
-  // ถ้าคลิก Home ให้เลื่อนขึ้นบนสุดจริงๆ
-  if (id === 'home' || !tgt) {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    history.replaceState(null, '', '#home'); // อัปเดต hash ให้สวย
-    return;
-  }
+      // ตำแหน่งที่จะเลื่อนไป = ตำแหน่งจริงของ element - offset ของ navbar - เผื่ออีกนิด
+      const targetTop = Math.max(
+        0,
+        tgt.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET - 8
+      );
 
-  // ตำแหน่งที่จะเลื่อนไป = ตำแหน่งจริงของ element - offset ของ navbar - เผื่ออีกนิด
-  const targetTop = Math.max(
-    0,
-    tgt.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET - 8
-  );
-
-  window.scrollTo({ top: targetTop, behavior: 'smooth' });
-  history.replaceState(null, '', `#${id}`);
+      window.scrollTo({ top: targetTop, behavior: 'smooth' });
+      history.replaceState(null, '', `#${id}`);
 });
 
     /* -------- Skills bars & counters (replay-safe) -------- */
@@ -329,16 +448,11 @@ document.addEventListener('click', (e) => {
         const x = -maxShift * prog;
         hTrack.style.transform = `translateX(${x}px)`;
     }
-
     window.addEventListener('load', () => {
-        measurePin();
-        pinHorizontal();
-        revealInViewNow(); // PATCH
-    });
-    window.addEventListener('resize', () => {
-        measurePin();
-        pinHorizontal();
-        revealInViewNow(); // PATCH (เวลาเปลี่ยนขนาดจอ ให้ sync สถานะ)
+      measurePin();
+      pinHorizontal();
+      revealInViewNow();
+      onScroll(); // sync bubble-nav visibility ตอนเริ่มโหลด
     });
     })();
 
